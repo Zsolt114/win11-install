@@ -6,23 +6,7 @@ $ErrorActionPreference = 'Stop'
 
 # Winget rész 
 Write-Host "Winget telepítése... (Ez sok idő lehet)" -ForegroundColor Cyan
-$job = Start-Job -ScriptBlock {
-    winget upgrade --id Microsoft.WindowsPackageManager -e | Out-Null
-}
-
-$progress = 0
-while (-not (Receive-Job -Job $job -Wait -Timeout 1)) {
-    Write-Progress -Activity "Winget frissítése..." -Status "$progress%" -PercentComplete $progress
-    Start-Sleep -Milliseconds 300
-    $progress = ($progress + 5) % 105
-}
-
-# Várjuk meg a tényleges befejezést
-Receive-Job -Job $job | Out-Null
-Remove-Job -Job $job
-
-Write-Progress -Activity "Winget frissítése..." -Completed
-Write-Host "✅ Frissítés kész!" -ForegroundColor Green
+winget upgrade --id Microsoft.WindowsPackageManager -e
 
 $wingetPkgs = @(
     'VideoLAN.VLC',
@@ -45,7 +29,7 @@ $wingetPkgs = @(
 
 foreach ($pkg in $wingetPkgs) {
     Write-Host "Winget: Telepítés $pkg" -ForegroundColor Green
-    winget install --id $pkg --silent --accept-source-agreements --accept-package-agreements | Out-Null
+    winget install --id $pkg --silent --accept-source-agreements --accept-package-agreements
 }
 
 # Chocolatey rész (az előző 2. pont)
@@ -70,7 +54,8 @@ $chocoPkgs = @(
 
 foreach ($pkg in $chocoPkgs) {
     Write-Host "Chocolatey: Telepítés $pkg" -ForegroundColor Green
-    choco install $pkg -y --no-progress | Out-Null
+    #choco install $pkg -y --no-progress | Out-Null
+    choco install $pkg -y
 }
 
 Write-Host "`nChocolatey csomag telepítése befejeződött!" -ForegroundColor Yellow
@@ -107,6 +92,7 @@ foreach ($pkg in $packagesWithDIR) {
 
 Write-Host "Chocolatey telepítése indul…" -ForegroundColor Cyan
 # Az összes csomagot egyetlen parancsban futtatjuk – a `--no-progress` csak a kimenetet takarja.
-choco install $chocoArgs -y --no-progress | Out-Null
+#choco install $chocoArgs -y --no-progress | Out-Null
+choco install $chocoArgs -y
 
 Write-Host "`nMinden csomag telepítése befejeződött!" -ForegroundColor Yellow

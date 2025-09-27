@@ -11,17 +11,15 @@ winget upgrade --id Microsoft.WindowsPackageManager -e --accept-source-agreement
 $wingetPkgs = @(
     'VideoLAN.VLC',
     'VivaldiTechnologies.Vivaldi',
-    'UnityHub.UnityHub',
-    'JetBrains.PyCharmCommunity',
+    'Unity.UnityHub',
+    'JetBrains.PyCharm.Community',
     'JetBrains.IntelliJIDEA.Community',
     'Mozilla.Firefox',
     'Microsoft.VisualStudioCode',
     'Microsoft.Teams',
-    'LM-Studio.LMStudio',
     'Foxit.FoxitReader',
     'Discord.Discord',
     'EpicGames.EpicGamesLauncher',
-    'Crytek.CryEngine',
     'BlenderFoundation.Blender',
     '7zip.7zip'
     'Wargaming.GameCenter'
@@ -48,8 +46,8 @@ $chocoPkgs = @(
     'hamachi',
     'git.install',
     'gimp',
-    'discord',
-    'anaconda3'
+    'anaconda3',
+    'lm-studio'
 )
 
 foreach ($pkg in $chocoPkgs) {

@@ -10,7 +10,6 @@ winget upgrade --id Microsoft.WindowsPackageManager -e --accept-source-agreement
 
 $wingetPkgs = @(
     'VideoLAN.VLC',
-    'VivaldiTechnologies.Vivaldi',
     'Unity.UnityHub',
     'JetBrains.PyCharm.Community',
     'JetBrains.IntelliJIDEA.Community',
@@ -40,14 +39,15 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 
 $chocoPkgs = @(
     'winamp',
-    'rustup',
+    'rust',
     'notepadplusplus.install',
     'inkscape',
     'hamachi',
     'git.install',
     'gimp',
     'anaconda3',
-    'lm-studio'
+    'lm-studio',
+    'vivaldi'
 )
 
 foreach ($pkg in $chocoPkgs) {
@@ -82,15 +82,13 @@ $packagesWithDIR = @(
 # 4  Egyetlen choco install parancs – minden csomaghoz paraméter
 # ==========================================================
 
-$chocoArgs = @()
 foreach ($pkg in $packagesWithDIR) {
     # Ha a csomag támogatja az InstallDir paramétert, adjuk meg:
-    $chocoArgs += "$($pkg.Name) --params `"/InstallDir:$($pkg.Dir)`""
+    choco install $pkg.Name -y  --params /InstallDir:$pkg.Dir
 }
 
 Write-Host "Chocolatey telepítése indul…" -ForegroundColor Cyan
 # Az összes csomagot egyetlen parancsban futtatjuk – a `--no-progress` csak a kimenetet takarja.
 #choco install $chocoArgs -y --no-progress | Out-Null
-choco install $chocoArgs -y
 
 Write-Host "`nMinden csomag telepítése befejeződött!" -ForegroundColor Yellow

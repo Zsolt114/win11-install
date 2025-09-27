@@ -5,7 +5,7 @@
 $ErrorActionPreference = 'Stop'
 
 # Winget rész 
-Write-Host "Winget telepítése..." -ForegroundColor Cyan
+Write-Host "Winget telepítése... (Ez sok idő lehet)" -ForegroundColor Cyan
 winget upgrade --id Microsoft.WindowsPackageManager -e | Out-Null
 
 $wingetPkgs = @(
@@ -76,8 +76,7 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 
 $packagesWithDIR = @(
     @{Name='visualstudio2022community';  Dir='D:\DevTools\VS2022'},
-    @{Name='visualstudio2019community';  Dir='D:\DevTools\VS2019'},
-
+    @{Name='visualstudio2019community';  Dir='D:\DevTools\VS2019'}
 )
 
 # ==========================================================

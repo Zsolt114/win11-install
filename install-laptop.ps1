@@ -84,7 +84,8 @@ $packagesWithDIR = @(
 
 foreach ($pkg in $packagesWithDIR) {
     # Ha a csomag támogatja az InstallDir paramétert, adjuk meg:
-    choco install $pkg.Name -y  --params /InstallDir:$pkg.Dir
+    #"'/InstallDir:$($pkgDir)'"
+    choco install $pkg.Name -y  --params "'--installPath=$($pkgDir)'"
 }
 
 Write-Host "Chocolatey telepítése indul…" -ForegroundColor Cyan

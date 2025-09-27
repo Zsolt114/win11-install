@@ -6,7 +6,7 @@ $ErrorActionPreference = 'Stop'
 
 # Winget rész 
 Write-Host "Winget telepítése... (Ez sok idő lehet)" -ForegroundColor Cyan
-winget upgrade --id Microsoft.WindowsPackageManager -e
+winget upgrade --id Microsoft.WindowsPackageManager -e --accept-source-agreements --accept-package-agreements
 
 $wingetPkgs = @(
     'VideoLAN.VLC',

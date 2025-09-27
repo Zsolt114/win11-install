@@ -6,7 +6,23 @@ $ErrorActionPreference = 'Stop'
 
 # Winget rész 
 Write-Host "Winget telepítése... (Ez sok idő lehet)" -ForegroundColor Cyan
-winget upgrade --id Microsoft.WindowsPackageManager -e | Out-Null
+$job = Start-Job -ScriptBlock {
+    winget upgrade --id Microsoft.WindowsPackageManager -e | Out-Null
+}
+
+$progress = 0
+while (-not (Receive-Job -Job $job -Wait -Timeout 1)) {
+    Write-Progress -Activity "Winget frissítése..." -Status "$progress%" -PercentComplete $progress
+    Start-Sleep -Milliseconds 300
+    $progress = ($progress + 5) % 105
+}
+
+# Várjuk meg a tényleges befejezést
+Receive-Job -Job $job | Out-Null
+Remove-Job -Job $job
+
+Write-Progress -Activity "Winget frissítése..." -Completed
+Write-Host "✅ Frissítés kész!" -ForegroundColor Green
 
 $wingetPkgs = @(
     'VideoLAN.VLC',
